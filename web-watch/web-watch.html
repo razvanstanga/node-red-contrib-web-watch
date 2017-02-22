@@ -1,0 +1,77 @@
+<script type="text/x-red" data-template-name="Web watch">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-url"><i class="fa fa-dot-circle-o"></i> Url</label>
+        <input type="text" id="node-input-url" placeholder="http://www.google.com">
+    </div>
+    <div class="form-row">
+        <label for="node-input-interval"><i class="fa fa-clock-o"></i> Interval (S)</label>
+        <input type="text" id="node-input-interval" placeholder="Interval">
+    </div>
+</script>
+<script type="text/x-red" data-template-name="Web watch in">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-url"><i class="fa fa-dot-circle-o"></i> Url</label>
+        <input type="text" id="node-input-url" placeholder="http://www.google.com">
+    </div>
+    <div class="form-row">
+        <label for="node-input-interval"><i class="fa fa-clock-o"></i> Interval (S)</label>
+        <input type="text" id="node-input-interval" placeholder="Interval">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="Web watch">
+    <p>Watches for changes on any url.</p>
+</script>
+<script type="text/x-red" data-help-name="Web watch in">
+    <p>Watches for changes on any url.</p>
+    <p>Url set in configuration may be overridden by passing in a url in <code>msg.url</code>.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType("Web watch", {
+        category: "advanced-input",
+        color: "#3c8dbc",
+        defaults: {
+            name: {value: ""},
+            url: {value: ""},
+            interval: {value: "5", required: true, validate: RED.validators.number()}
+        },
+        inputs: 0,
+        outputs: 1,
+        icon: "white-globe.png",
+        label: function() {
+            return this.name || this.url || 'Web watch';
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        },
+        paletteLabel: "Web watch"
+    });
+    RED.nodes.registerType('Web watch in', {
+        category: "advanced-input",
+        color: "#3c8dbc",
+        defaults: {
+            name: {value: ""},
+            url: {value: ""},
+            interval: {value: "5", required: true, validate: RED.validators.number()}
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "white-globe.png",
+        label: function() {
+            return this.name || this.url || 'Web watch in';
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        },
+        paletteLabel: "Web watch in"
+    });
+</script>

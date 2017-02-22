@@ -1,0 +1,32 @@
+{
+    "name": "node-red-contrib-web-watch",
+    "version": "0.0.2",
+    "description": "A Node-RED node that watches for changes on webpages",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/razvanstanga/node-red-contrib-web-watch.git"
+    },
+    "dependencies": {
+        "request": "^2.79.0"
+    },
+    "inputs" : 0,
+    "keywords": [
+        "node-red",
+        "node-red-contrib",
+        "webpage",
+        "watch"
+    ],
+    "node-red": {
+        "nodes": {
+            "web watch": "web-watch/web-watch.js"
+        }
+    },
+    "author": {
+        "name": "Razvan Stanga"
+    },
+    "license": "Apache",
+    "bugs": {
+        "url": "https://github.com/razvanstanga/node-red-contrib-web-watch/issues"
+    },
+    "homepage": "https://github.com/razvanstanga/node-red-contrib-web-watch"
+}
