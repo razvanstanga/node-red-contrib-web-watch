@@ -4,7 +4,7 @@
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
     <div class="form-row">
-        <label for="node-input-url"><i class="fa fa-dot-circle-o"></i> Url</label>
+        <label for="node-input-url"><i class="fa fa-link"></i> Url</label>
         <input type="text" id="node-input-url" placeholder="http://www.google.com">
     </div>
     <div class="form-row">
@@ -18,7 +18,7 @@
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
     <div class="form-row">
-        <label for="node-input-url"><i class="fa fa-dot-circle-o"></i> Url</label>
+        <label for="node-input-url"><i class="fa fa-link"></i> Url</label>
         <input type="text" id="node-input-url" placeholder="http://www.google.com">
     </div>
     <div class="form-row">
@@ -41,7 +41,7 @@
         color: "#3c8dbc",
         defaults: {
             name: {value: ""},
-            url: {value: ""},
+            url: {value: "", required: true},
             interval: {value: "5", required: true, validate: RED.validators.number()}
         },
         inputs: 0,
@@ -60,7 +60,7 @@
         color: "#3c8dbc",
         defaults: {
             name: {value: ""},
-            url: {value: ""},
+            url: {value: "", required: true},
             interval: {value: "5", required: true, validate: RED.validators.number()}
         },
         inputs: 1,
