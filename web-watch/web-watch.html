@@ -11,6 +11,30 @@
         <label for="node-input-interval"><i class="fa fa-clock-o"></i> Interval (S)</label>
         <input type="text" id="node-input-interval" placeholder="Interval">
     </div>
+    <p>HTTP Authentication</p>
+    <div class="form-row">
+        <label for="node-input-username"><i class="fa fa-user"></i> Username</label>
+        <input type="text" id="node-input-username" placeholder="Username">
+    </div>
+    <div class="form-row">
+        <label for="node-input-password"><i class="fa fa-key"></i> Password</label>
+        <input type="text" id="node-input-password" placeholder="Password">
+    </div>
+    <p>Return msg.payload as</p>
+    <div class="form-row">
+        <label for="node-input-body"><i class="fa fa-code"></i> Body</label>
+        <select id="node-input-body" style="width:200px !important">
+            <option value="html">HTML</option>
+            <option value="json">JSON</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <i class="fa fa-code"></i> Custom headers (JSON)
+        <input type="hidden" id="node-input-headers">
+    </div>
+    <div class="form-row node-text-editor-row">
+        <div style="height:250px;" class="node-text-editor" id="node-input-headers-editor" ></div>
+    </div>
 </script>
 <script type="text/x-red" data-template-name="Web watch in">
     <div class="form-row">
@@ -24,6 +48,34 @@
     <div class="form-row">
         <label for="node-input-interval"><i class="fa fa-clock-o"></i> Interval (S)</label>
         <input type="text" id="node-input-interval" placeholder="Interval">
+    </div>
+    <div class="form-row">
+        <label for="node-input-headers"><i class="fa fa-user"></i> Custom headers</label>
+        <input type="text" id="node-input-headers" placeholder="Custom headers">
+    </div>
+    <p>HTTP Authentication</p>
+    <div class="form-row">
+        <label for="node-input-username"><i class="fa fa-user"></i> Username</label>
+        <input type="text" id="node-input-username" placeholder="Username">
+    </div>
+    <div class="form-row">
+        <label for="node-input-password"><i class="fa fa-key"></i> Password</label>
+        <input type="text" id="node-input-password" placeholder="Password">
+    </div>
+    <p>Return msg.payload as</p>
+    <div class="form-row">
+        <label for="node-input-body"><i class="fa fa-code"></i> Body</label>
+        <select id="node-input-body" style="width:200px !important">
+            <option value="html">HTML</option>
+            <option value="json">JSON</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <i class="fa fa-code"></i> Custom headers (JSON)
+        <input type="hidden" id="node-input-headers">
+    </div>
+    <div class="form-row node-text-editor-row">
+        <div style="height:250px;" class="node-text-editor" id="node-input-headers-editor" ></div>
     </div>
 </script>
 
@@ -43,7 +95,23 @@
             name: {value: ""},
             url: {value: "", required: true},
             interval: {value: "60", required: true, validate: RED.validators.number()},
-            active: {value:true}
+            headers: {value: '{\n\t"User-Agent": "request"\n}', validate: function(v) {
+                var valid = true;
+                if (v) {
+                    try {
+                        JSON.parse(v);
+                    }
+                    catch (ex) {
+                        valid = false;
+                    }
+                    $("#node-input-headers-editor").toggleClass("input-error", !valid);
+                }
+                return valid;
+            }},
+            username: {value: ""},
+            password: {value: ""},
+            body: {value: "html", required: true},
+            active: {value: true}
         },
         inputs: 0,
         outputs: 1,
@@ -82,6 +150,21 @@
                     }
                 });
             }
+        },
+        oneditprepare: function() {
+            if (this.body === undefined) {
+                this.body = "html";
+                $("#node-input-body").val(this.body);
+            }
+            this.editor = RED.editor.createEditor({
+                id: 'node-input-headers-editor',
+                mode: 'ace/mode/javascript',
+                value: $("#node-input-headers").val()
+            });
+        },
+        oneditsave: function() {
+            $("#node-input-headers").val(this.editor.getValue());
+            delete this.editor;
         }
     });
     RED.nodes.registerType("Web watch in", {
@@ -91,6 +174,22 @@
             name: {value: ""},
             url: {value: "", required: true},
             interval: {value: "60", required: true, validate: RED.validators.number()},
+            headers: {value: '{\n\t"User-Agent": "request"\n}', validate: function(v) {
+                var valid = true;
+                if (v) {
+                    try {
+                        JSON.parse(v);
+                    }
+                    catch (ex) {
+                        valid = false;
+                    }
+                    $("#node-input-headers-editor").toggleClass("input-error", !valid);
+                }
+                return valid;
+            }},
+            username: {value: ""},
+            password: {value: ""},
+            body: {value: "html", required: true},
             active: {value:true}
         },
         inputs: 1,
@@ -130,6 +229,21 @@
                     }
                 });
             }
+        },
+        oneditprepare: function() {
+            if (this.body === undefined) {
+                this.body = "html";
+                $("#node-input-body").val(this.body);
+            }
+            this.editor = RED.editor.createEditor({
+                id: 'node-input-headers-editor',
+                mode: 'ace/mode/javascript',
+                value: $("#node-input-headers").val()
+            });
+        },
+        oneditsave: function() {
+            $("#node-input-headers").val(this.editor.getValue());
+            delete this.editor;
         }
     });
 </script>

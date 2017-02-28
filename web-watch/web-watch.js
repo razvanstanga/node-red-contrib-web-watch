@@ -61,7 +61,7 @@ module.exports = function(RED) {
                     }
                 }
             }
-            catch (ex){
+            catch (ex) {
                 console.log (ex);
             }
 
@@ -118,13 +118,30 @@ module.exports = function(RED) {
 
         node.intervalId = setInterval(function() {
             if (node.active == false) return;
-            request(config.url, function (error, response, body) {
+            var options = {};
+            if (config.username && config.password) {
+                options.auth = {
+                    'user': config.username,
+                    'pass': config.password
+                };
+            }
+            if (config.headers) {
+                 options.headers = JSON.parse(config.headers);
+            }
+            request(config.url, options, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     if (node.cacheHtml == null) {
                         node.cacheHtml = body;
                     } else if (node.cacheHtml != "" && node.cacheHtml != body) {
                         node.cacheHtml = body;
                         msg.headers = response.headers;
+                        if (config.body == 'json') {
+                            try {
+                                body = JSON.parse(body);
+                            } catch(ex) {
+                                body = ex;
+                            }
+                        }
                         msg.payload = body;
                         node.send(msg);
                     }
