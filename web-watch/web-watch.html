@@ -42,36 +42,94 @@
         defaults: {
             name: {value: ""},
             url: {value: "", required: true},
-            interval: {value: "5", required: true, validate: RED.validators.number()}
+            interval: {value: "60", required: true, validate: RED.validators.number()},
+            active: {value:true}
         },
         inputs: 0,
         outputs: 1,
         icon: "white-globe.png",
         label: function() {
-            return this.name || this.url || 'Web watch';
+            return this.name || this.url || this.type;
         },
         labelStyle: function() {
             return this.name?"node_label_italic":"";
         },
-        paletteLabel: "Web watch"
+        paletteLabel: "Web watch",
+        align: "right",
+        button: {
+            toggle: "active",
+            onclick: function() {
+                var label = this.name || this.url || this.type;
+                var node = this;
+                $.ajax({
+                    url: "web-watch/"+this.id+"/"+(this.active?"enable":"disable"),
+                    type: "POST",
+                    success: function(resp, textStatus, xhr) {
+                        if (xhr.status == 200) {
+                            RED.notify(label + " succesfully activated", "success");
+                        } else if (xhr.status == 201) {
+                            RED.notify(label + " succesfully deactivated", "success");
+                        }
+                    },
+                    error: function(jqXHR,textStatus,errorThrown) {
+                        if (jqXHR.status == 404) {
+                            RED.notify(node._("common.notification.error", {message: node._("common.notification.errors.not-deployed")}),"error");
+                        } else if (jqXHR.status == 0) {
+                            RED.notify(node._("common.notification.error", {message: node._("common.notification.errors.no-response")}),"error");
+                        } else {
+                            RED.notify(node._("common.notification.error",{message:node._("common.notification.errors.unexpected",{status:err.status,message:err.response})}),"error");
+                        }
+                    }
+                });
+            }
+        }
     });
-    RED.nodes.registerType('Web watch in', {
+    RED.nodes.registerType("Web watch in", {
         category: "advanced-input",
         color: "#3c8dbc",
         defaults: {
             name: {value: ""},
             url: {value: "", required: true},
-            interval: {value: "5", required: true, validate: RED.validators.number()}
+            interval: {value: "60", required: true, validate: RED.validators.number()},
+            active: {value:true}
         },
         inputs: 1,
         outputs: 1,
         icon: "white-globe.png",
         label: function() {
-            return this.name || this.url || 'Web watch in';
+            return this.name || this.url || this.type;
         },
         labelStyle: function() {
             return this.name?"node_label_italic":"";
         },
-        paletteLabel: "Web watch in"
+        paletteLabel: "Web watch in",
+        align: "right",
+        button: {
+            toggle: "active",
+            onclick: function() {
+                var label = this.name || this.url || this.type;
+                var node = this;
+                $.ajax({
+                    url: "web-watch/"+this.id+"/"+(this.active?"enable":"disable"),
+                    type: "POST",
+                    success: function(resp, textStatus, xhr) {
+                        if (xhr.status == 200) {
+                            RED.notify(label + " succesfully activated", "success");
+                        } else if (xhr.status == 201) {
+                            RED.notify(label + " succesfully deactivated", "success");
+                        }
+                    },
+                    error: function(jqXHR,textStatus,errorThrown) {
+                        if (jqXHR.status == 404) {
+                            RED.notify(node._("common.notification.error", {message: node._("common.notification.errors.not-deployed")}),"error");
+                        } else if (jqXHR.status == 0) {
+                            RED.notify(node._("common.notification.error", {message: node._("common.notification.errors.no-response")}),"error");
+                        } else {
+                            RED.notify(node._("common.notification.error",{message:node._("common.notification.errors.unexpected",{status:err.status,message:err.response})}),"error");
+                        }
+                    }
+                });
+            }
+        }
     });
 </script>

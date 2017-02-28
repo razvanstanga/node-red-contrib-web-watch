@@ -1,6 +1,6 @@
 {
     "name": "node-red-contrib-web-watch",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "A Node-RED node that watches for changes on webpages",
     "repository": {
         "type": "git",
